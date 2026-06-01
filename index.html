@@ -143,6 +143,20 @@
     .copy-confirm { font-size: 12px; color: var(--green); margin-top: 0.5rem; display: none; }
 
     footer { background: var(--bg-secondary); border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; font-size: 13px; color: var(--text-tertiary); }
+
+    /* Entry cards */
+    .entry-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
+    .entry-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+    .entry-card.active { border: 2px solid currentColor; }
+    .entry-icon { font-size: 26px; margin-bottom: 0.75rem; }
+    .entry-title { font-size: 15px; font-weight: 500; color: var(--text); margin: 0 0 0.5rem; }
+    .entry-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 0.875rem; }
+    .entry-tag { font-size: 11px; padding: 3px 8px; border-radius: 20px; display: inline-block; }
+    .entry-detail { display: none; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1.5rem; margin-top: 0; }
+    .entry-detail.visible { display: block; }
+    .entry-detail-title { font-size: 16px; font-weight: 500; color: var(--text); margin: 0 0 0.75rem; }
+    .entry-detail p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin: 0 0 0.75rem; }
+    .entry-stat { font-size: 13px; font-weight: 500; padding: 0.5rem 0.875rem; border-radius: var(--radius-md); display: inline-block; }
   </style>
 </head>
 <body>
@@ -161,10 +175,62 @@
   <div class="eyebrow">Based on data</div>
   <h1>One sober friend changes everything.</h1>
   <p class="lead">Not a lecture. Just data on what actually makes a night safer — and more fun.</p>
-  <div class="btn-group">
-    <a class="btn" href="#model">See the data</a>
-    <a class="btn" href="#share">Share with friends</a>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 2rem;">
+
+    <div class="entry-card" onclick="showEntry('hosting')" id="c-hosting">
+      <div class="entry-icon">🎉</div>
+      <p class="entry-title">I'm organising a party</p>
+      <p class="entry-desc">You want the night to go well. Here's what the data says actually makes a difference.</p>
+      <span class="entry-tag" style="background:var(--green-bg); color:var(--green);">18+</span>
+    </div>
+
+    <div class="entry-card" onclick="showEntry('goingout')" id="c-goingout">
+      <div class="entry-icon">🌙</div>
+      <p class="entry-title">I'm going out</p>
+      <p class="entry-desc">Understand how your group composition affects risk — and what you can do about it tonight.</p>
+      <span class="entry-tag" style="background:var(--purple-bg); color:var(--purple);">18+</span>
+    </div>
+
+    <div class="entry-card" onclick="showEntry('notyet')" id="c-notyet">
+      <div class="entry-icon">👀</div>
+      <p class="entry-title">I don't drink yet</p>
+      <p class="entry-desc">You're not missing out. You might actually be the most valuable person in the room.</p>
+      <span class="entry-tag" style="background:var(--amber-bg); color:var(--amber);">All ages</span>
+    </div>
+
   </div>
+
+  <div class="entry-detail" id="d-hosting">
+    <p class="entry-detail-title">The host has more influence than anyone else in the room</p>
+    <p>Who you invite, how you frame the night, and whether there's a sober anchor — these decisions shape the risk profile of the whole event before anyone arrives. The data shows that one socially central sober person reduces escalation risk significantly.</p>
+    <div class="entry-stat" style="background:var(--green-bg); color:var(--green);">One anchor → up to 60% lower conflict risk</div>
+    <div class="btn-group" style="margin-top:1.25rem;">
+      <a class="btn" href="#model">See the model</a>
+      <a class="btn" href="#tips">Invite an anchor</a>
+    </div>
+  </div>
+
+  <div class="entry-detail" id="d-goingout">
+    <p class="entry-detail-title">You can't control the environment. You can control your group.</p>
+    <p>74% of male assault victims report the perpetrator was intoxicated. 53% were intoxicated themselves. A sober person in your group sees both sides — and has a 10–15 minute warning window before most incidents escalate.</p>
+    <div class="entry-stat" style="background:var(--purple-bg); color:var(--purple);">Most incidents have a 10–15 min warning window</div>
+    <div class="btn-group" style="margin-top:1.25rem;">
+      <a class="btn" href="#model">Model your group</a>
+      <a class="btn" href="#share">Share a stat</a>
+    </div>
+  </div>
+
+  <div class="entry-detail" id="d-notyet">
+    <p class="entry-detail-title">Not drinking doesn't make you the boring one. The data says otherwise.</p>
+    <p>64% of year 9 students in Sweden didn't drink last year. You're in the majority — you just don't hear about it as much. When you start going to parties, the most useful thing you can be is the one who stays clear. That's not a consolation prize. It's a role with real effect.</p>
+    <div class="entry-stat" style="background:var(--amber-bg); color:var(--amber);">64% of year 9 students in Sweden didn't drink last year — CAN 2025</div>
+    <div class="btn-group" style="margin-top:1.25rem;">
+      <a class="btn" href="#tips">What the anchor does</a>
+      <a class="btn" href="#share">Share this</a>
+    </div>
+  </div>
+
 </section>
 
 <!-- SECTION 2: RISK MODEL -->
@@ -331,6 +397,28 @@
 </footer>
 
 <script>
+  /* ---- Entry cards ---- */
+  var entryColors = { hosting: '#1D9E75', goingout: '#534AB7', notyet: '#BA7517' };
+  var activeEntry = null;
+
+  function showEntry(id) {
+    ['hosting','goingout','notyet'].forEach(function(k){
+      document.getElementById('d-'+k).classList.remove('visible');
+      var c = document.getElementById('c-'+k);
+      c.classList.remove('active');
+      c.style.borderColor = '';
+      c.style.color = '';
+    });
+    if (activeEntry === id) { activeEntry = null; return; }
+    var detail = document.getElementById('d-'+id);
+    detail.classList.add('visible');
+    var card = document.getElementById('c-'+id);
+    card.classList.add('active');
+    card.style.borderColor = entryColors[id];
+    card.style.color = entryColors[id];
+    activeEntry = id;
+  }
+
   /* ---- Risk model ---- */
   function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 
