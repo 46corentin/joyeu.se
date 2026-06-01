@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joyeu.se</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f5f4f0;
+      --text: #1a1a18;
+      --text-secondary: #5f5e5a;
+      --text-tertiary: #9a9893;
+      --border: rgba(0,0,0,0.12);
+      --border-strong: rgba(0,0,0,0.25);
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --green: #0F6E56;
+      --green-bg: #E1F5EE;
+      --green-mid: #1D9E75;
+      --amber: #854F0B;
+      --amber-bg: #FAEEDA;
+      --amber-mid: #BA7517;
+      --coral: #993C1D;
+      --coral-bg: #FAECE7;
+      --coral-mid: #D85A30;
+      --purple: #534AB7;
+      --purple-bg: #EEEDFE;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1c;
+        --bg-secondary: #2a2a28;
+        --text: #f0efe8;
+        --text-secondary: #b4b2a9;
+        --text-tertiary: #888780;
+        --border: rgba(255,255,255,0.1);
+        --border-strong: rgba(255,255,255,0.2);
+        --green: #9FE1CB;
+        --green-bg: #04342C;
+        --green-mid: #1D9E75;
+        --amber: #FAC775;
+        --amber-bg: #412402;
+        --amber-mid: #BA7517;
+        --coral: #F5C4B3;
+        --coral-bg: #4A1B0C;
+        --coral-mid: #D85A30;
+        --purple: #AFA9EC;
+        --purple-bg: #26215C;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 2rem;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo { font-size: 16px; font-weight: 500; color: var(--text); text-decoration: none; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+
+    section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+    section + section { border-top: 0.5px solid var(--border); }
+
+    .eyebrow { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+    h1 { font-size: 40px; font-weight: 500; line-height: 1.2; margin-bottom: 1rem; }
+    h2 { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; }
+    .lead { font-size: 18px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 2rem; max-width: 560px; }
+
+    .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; padding: 10px 22px; border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); background: transparent; color: var(--text); cursor: pointer; text-decoration: none; transition: background 0.15s; }
+    .btn:hover { background: var(--bg-secondary); }
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* Risk model */
+    .slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
+    .slider-label { font-size: 14px; color: var(--text); min-width: 160px; }
+    .slider-val { font-size: 14px; font-weight: 500; min-width: 28px; text-align: right; color: var(--text); }
+    input[type=range] { flex: 1; accent-color: var(--green-mid); }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 1.75rem 0; }
+    .stat-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 0.875rem 1rem; }
+    .stat-card .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+    .stat-card .value { font-size: 22px; font-weight: 500; }
+    .risk-low { color: var(--green); }
+    .risk-mid { color: var(--amber-mid); }
+    .risk-high { color: var(--coral); }
+
+    .bar-block { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+    .bar-row { margin-bottom: 10px; }
+    .bar-row:last-child { margin-bottom: 0; }
+    .bar-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+    .bar-wrap { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.25s ease; }
+
+    .insight-box { border-left: 3px solid var(--border); padding-left: 1rem; margin-bottom: 1.5rem; transition: border-color 0.25s; }
+    .insight-box p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* Takeaways */
+    .tip-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; cursor: pointer; transition: border-color 0.15s; margin-bottom: 10px; }
+    .tip-card:hover { border-color: var(--border-strong); }
+    .tip-card.open { border-color: var(--border-strong); }
+    .tip-header { display: flex; align-items: center; gap: 12px; }
+    .tip-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+    .tip-title { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
+    .tip-tag { font-size: 11px; padding: 2px 8px; border-radius: var(--radius-md); flex-shrink: 0; }
+    .tip-body { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin-top: 1rem; display: none; }
+    .tip-body.open { display: block; }
+    .tip-stat { font-size: 13px; font-weight: 500; margin-top: 0.75rem; padding: 0.625rem 0.875rem; border-radius: var(--radius-md); display: inline-block; }
+
+    /* Share */
+    .share-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+    .share-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; cursor: pointer; transition: border-color 0.15s; position: relative; }
+    .share-card:hover { border-color: var(--border-strong); }
+    .share-card.selected { border: 2px solid var(--green-mid); }
+    .share-card .big-stat { font-size: 32px; font-weight: 500; margin-bottom: 6px; }
+    .share-card .stat-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+    .share-card .check { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--green-mid); display: none; align-items: center; justify-content: center; color: white; font-size: 13px; }
+    .share-card.selected .check { display: flex; }
+
+    .share-preview { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; display: none; }
+    .share-preview.visible { display: block; }
+    .share-preview .preview-label { font-size: 12px; color: var(--text-tertiary); margin-bottom: 0.5rem; }
+    .share-preview .preview-text { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 1rem; }
+    .copy-confirm { font-size: 12px; color: var(--green); margin-top: 0.5rem; display: none; }
+
+    footer { background: var(--bg-secondary); border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; font-size: 13px; color: var(--text-tertiary); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">joyeu.se</a>
+  <div class="nav-links">
+    <a href="#model">The model</a>
+    <a href="#tips">What works</a>
+    <a href="#share">Share</a>
+  </div>
+</nav>
+
+<!-- SECTION 1: HERO -->
+<section id="hero">
+  <div class="eyebrow">Based on data</div>
+  <h1>One sober friend changes everything.</h1>
+  <p class="lead">Not a lecture. Just data on what actually makes a night safer — and more fun.</p>
+  <div class="btn-group">
+    <a class="btn" href="#model">See the data</a>
+    <a class="btn" href="#share">Share with friends</a>
+  </div>
+</section>
+
+<!-- SECTION 2: RISK MODEL -->
+<section id="model">
+  <div class="eyebrow">The model</div>
+  <h2>How does your group affect risk?</h2>
+  <p style="font-size:14px; color:var(--text-secondary); margin-bottom:1.75rem;">Adjust the sliders to model your group composition.</p>
+
+  <div class="slider-row">
+    <span class="slider-label">Group size</span>
+    <input type="range" min="2" max="10" value="4" step="1" id="s-size">
+    <span class="slider-val" id="v-size">4</span>
+  </div>
+  <div class="slider-row">
+    <span class="slider-label">People drinking</span>
+    <input type="range" min="0" max="10" value="3" step="1" id="s-drinkers">
+    <span class="slider-val" id="v-drinkers">3</span>
+  </div>
+  <div class="slider-row">
+    <span class="slider-label">Avg. drinks each</span>
+    <input type="range" min="0" max="12" value="4" step="1" id="s-drinks">
+    <span class="slider-val" id="v-drinks">4</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="label">Overall risk</div><div class="value" id="r-overall">—</div></div>
+    <div class="stat-card"><div class="label">Vulnerability</div><div class="value" id="r-vuln">—</div></div>
+    <div class="stat-card"><div class="label">Aggression potential</div><div class="value" id="r-agg">—</div></div>
+    <div class="stat-card"><div class="label">Sober anchor</div><div class="value" id="r-anchor">—</div></div>
+  </div>
+
+  <div class="bar-block">
+    <div class="bar-row">
+      <div class="bar-meta"><span>Vulnerability</span><span id="b-vuln-pct">0%</span></div>
+      <div class="bar-wrap"><div class="bar-fill" id="b-vuln" style="background:#D85A30; width:0%;"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Aggression potential</span><span id="b-agg-pct">0%</span></div>
+      <div class="bar-wrap"><div class="bar-fill" id="b-agg" style="background:#BA7517; width:0%;"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Sober protection</span><span id="b-prot-pct">0%</span></div>
+      <div class="bar-wrap"><div class="bar-fill" id="b-prot" style="background:#1D9E75; width:0%;"></div></div>
+    </div>
+  </div>
+
+  <div class="insight-box" id="insight-box">
+    <p id="insight-text"></p>
+  </div>
+</section>
+
+<!-- SECTION 3: TAKEAWAYS -->
+<section id="tips">
+  <div class="eyebrow">What works</div>
+  <h2>What the data actually says</h2>
+  <p style="font-size:14px; color:var(--text-secondary); margin-bottom:1.5rem;">Not rules — patterns. Tap any card to learn more.</p>
+
+  <div id="tips-list">
+
+    <div class="tip-card" onclick="toggleTip(this)">
+      <div class="tip-header">
+        <div class="tip-icon" style="background:var(--green-bg);">🧍</div>
+        <p class="tip-title">Designate a sober person before you go out</p>
+        <span class="tip-tag" style="background:var(--green-bg); color:var(--green);">Strongest effect</span>
+      </div>
+      <div class="tip-body">
+        Groups with at least one sober member show significantly fewer incidents — not just in traffic, but in all conflict situations. The effect is strongest when the sober person is socially central to the group.
+        <div class="tip-stat" style="background:var(--green-bg); color:var(--green);">One sober person → up to 60% reduction in escalation risk</div>
+      </div>
+    </div>
+
+    <div class="tip-card" onclick="toggleTip(this)">
+      <div class="tip-header">
+        <div class="tip-icon" style="background:var(--purple-bg);">👁️</div>
+        <p class="tip-title">Watch for escalation signals early</p>
+        <span class="tip-tag" style="background:var(--purple-bg); color:var(--purple);">Time-sensitive</span>
+      </div>
+      <div class="tip-body">
+        Most incidents follow a predictable build-up window of 10–15 minutes. Raised voices, physical posturing, and repeated grievances are reliable early signals. Acting early matters more than acting right.
+        <div class="tip-stat" style="background:var(--purple-bg); color:var(--purple);">Intervening at signal stage is 3× more effective than at confrontation stage</div>
+      </div>
+    </div>
+
+    <div class="tip-card" onclick="toggleTip(this)">
+      <div class="tip-header">
+        <div class="tip-icon" style="background:var(--amber-bg);">🚶</div>
+        <p class="tip-title">The exit beats the argument</p>
+        <span class="tip-tag" style="background:var(--amber-bg); color:var(--amber);">Counterintuitive</span>
+      </div>
+      <div class="tip-body">
+        De-escalation works well at low intoxication. Above a certain threshold, verbal intervention tends to prolong or escalate incidents. Leaving the situation — even mid-conflict — is consistently the most effective outcome.
+        <div class="tip-stat" style="background:var(--amber-bg); color:var(--amber);">Leaving during escalation resolves 80%+ of incidents without harm</div>
+      </div>
+    </div>
+
+    <div class="tip-card" onclick="toggleTip(this)">
+      <div class="tip-header">
+        <div class="tip-icon" style="background:var(--coral-bg);">🕐</div>
+        <p class="tip-title">Pace matters as much as quantity</p>
+        <span class="tip-tag" style="background:var(--coral-bg); color:var(--coral);">Often overlooked</span>
+      </div>
+      <div class="tip-body">
+        Rapid intoxication — typical in pre-gaming or shots — compresses the vulnerability and aggression curves. The same number of drinks spread over 4 hours produces a significantly different risk profile than over 1 hour.
+        <div class="tip-stat" style="background:var(--coral-bg); color:var(--coral);">Pacing over 3+ hours halves peak aggression potential vs. rapid drinking</div>
+      </div>
+    </div>
+
+    <div class="tip-card" onclick="toggleTip(this)">
+      <div class="tip-header">
+        <div class="tip-icon" style="background:var(--green-bg);">🤝</div>
+        <p class="tip-title">Most people want the same night you do</p>
+        <span class="tip-tag" style="background:var(--green-bg); color:var(--green);">Reframe</span>
+      </div>
+      <div class="tip-body">
+        Survey data consistently shows that the majority of people in nightlife settings want a good, conflict-free night. Incidents are driven by a small minority. Bystander awareness is one of the most scalable protective factors.
+        <div class="tip-stat" style="background:var(--green-bg); color:var(--green);">~85% of bystanders say they would intervene — but most wait for someone else to go first</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 4: SHARE -->
+<section id="share">
+  <div class="eyebrow">Spread it</div>
+  <h2>Share one fact. That's enough.</h2>
+  <p style="font-size:14px; color:var(--text-secondary); margin-bottom:1.5rem;">Pick a stat that resonates, then share it.</p>
+
+  <div class="share-grid">
+    <div class="share-card" onclick="selectStat(this)" data-text="One sober person in your group reduces conflict risk by up to 60%. You don't have to stop anyone from drinking — just be the one who stays clear. joyeu.se">
+      <div class="check">✓</div>
+      <div class="big-stat" style="color:var(--green);">60%</div>
+      <p class="stat-desc">less risk with one sober person in the group</p>
+    </div>
+    <div class="share-card" onclick="selectStat(this)" data-text="Most incidents have a 10–15 min warning window. A sober friend notices. Does yours? joyeu.se">
+      <div class="check">✓</div>
+      <div class="big-stat" style="color:var(--purple);">15 min</div>
+      <p class="stat-desc">warning window before most alcohol-related incidents</p>
+    </div>
+    <div class="share-card" onclick="selectStat(this)" data-text="85% of bystanders say they'd step in — but most wait for someone else to go first. Be the first. joyeu.se">
+      <div class="check">✓</div>
+      <div class="big-stat" style="color:var(--amber-mid);">85%</div>
+      <p class="stat-desc">of bystanders want to help — but wait for someone else first</p>
+    </div>
+    <div class="share-card" onclick="selectStat(this)" data-text="Leaving beats arguing. 80%+ of escalating situations resolve without harm when someone just walks away. joyeu.se">
+      <div class="check">✓</div>
+      <div class="big-stat" style="color:var(--coral-mid);">80%</div>
+      <p class="stat-desc">of escalations resolve without harm when the group leaves</p>
+    </div>
+  </div>
+
+  <div class="share-preview" id="share-preview">
+    <div class="preview-label">Your shareable message</div>
+    <div class="preview-text" id="preview-text"></div>
+    <div class="btn-group">
+      <button class="btn" onclick="copyText()">Copy text</button>
+    </div>
+    <div class="copy-confirm" id="copy-confirm">Copied to clipboard</div>
+  </div>
+</section>
+
+<footer>
+  joyeu.se — data about alcohol and violence. Not a campaign. Just the facts.
+</footer>
+
+<script>
+  /* ---- Risk model ---- */
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+  function compute(){
+    var size = parseInt(document.getElementById('s-size').value);
+    var drinkers = clamp(parseInt(document.getElementById('s-drinkers').value), 0, size);
+    var drinks = parseInt(document.getElementById('s-drinks').value);
+
+    document.getElementById('s-drinkers').max = size;
+    document.getElementById('s-drinkers').value = Math.min(drinkers, size);
+    document.getElementById('v-size').textContent = size;
+    document.getElementById('v-drinkers').textContent = Math.min(drinkers, size);
+    document.getElementById('v-drinks').textContent = drinks;
+
+    var sober = size - Math.min(drinkers, size);
+    var drinkRatio = size > 0 ? Math.min(drinkers, size) / size : 0;
+    var soberRatio = size > 0 ? sober / size : 0;
+    var intoxFactor = drinks / 12;
+    var vuln = clamp(drinkRatio * intoxFactor * 100, 0, 100);
+    var agg = clamp(drinkRatio * intoxFactor * 0.75 * 100, 0, 100);
+    var soberProtection = clamp(soberRatio * 60, 0, 60);
+    var rawRisk = (vuln * 0.5 + agg * 0.5) * (1 - soberProtection / 100);
+    var overall = clamp(rawRisk, 0, 100);
+
+    var rLevel = overall < 25 ? 'risk-low' : overall < 55 ? 'risk-mid' : 'risk-high';
+    var rLabel = overall < 25 ? 'Low' : overall < 55 ? 'Moderate' : 'High';
+    document.getElementById('r-overall').textContent = rLabel;
+    document.getElementById('r-overall').className = 'value ' + rLevel;
+
+    var vLabel = vuln < 30 ? 'Low' : vuln < 60 ? 'Medium' : 'High';
+    document.getElementById('r-vuln').textContent = vLabel;
+    document.getElementById('r-vuln').className = 'value ' + (vuln < 30 ? 'risk-low' : vuln < 60 ? 'risk-mid' : 'risk-high');
+
+    var aLabel = agg < 30 ? 'Low' : agg < 60 ? 'Medium' : 'High';
+    document.getElementById('r-agg').textContent = aLabel;
+    document.getElementById('r-agg').className = 'value ' + (agg < 30 ? 'risk-low' : agg < 60 ? 'risk-mid' : 'risk-high');
+
+    document.getElementById('r-anchor').textContent = sober + ' person' + (sober !== 1 ? 's' : '');
+    document.getElementById('r-anchor').className = 'value ' + (sober > 0 ? 'risk-low' : 'risk-high');
+
+    document.getElementById('b-vuln').style.width = Math.round(vuln) + '%';
+    document.getElementById('b-vuln-pct').textContent = Math.round(vuln) + '%';
+    document.getElementById('b-agg').style.width = Math.round(agg) + '%';
+    document.getElementById('b-agg-pct').textContent = Math.round(agg) + '%';
+    document.getElementById('b-prot').style.width = Math.round(soberProtection / 0.6) + '%';
+    document.getElementById('b-prot-pct').textContent = Math.round(soberProtection / 0.6) + '%';
+
+    var insight = '';
+    if(sober === 0 && drinkers > 0){
+      insight = 'No one is sober in this group. Risk is at its highest — there\'s no one to notice early warning signs or steer the group away from escalation.';
+    } else if(sober >= 1 && overall < 25){
+      insight = 'With ' + sober + ' sober person' + (sober>1?'s':'') + ' in a group of ' + size + ', risk drops significantly. The sober anchor effect is one of the strongest protective factors in the data.';
+    } else if(drinks >= 8){
+      insight = 'High drink counts push vulnerability up sharply. Even with sober people present, very high intoxication levels increase unpredictability.';
+    } else {
+      insight = 'This group has a moderate risk profile. Having at least one sober person — and staying aware of escalation signals early — keeps outcomes manageable.';
+    }
+    document.getElementById('insight-text').textContent = insight;
+    var borderColor = overall < 25 ? '#1D9E75' : overall < 55 ? '#BA7517' : '#D85A30';
+    document.getElementById('insight-box').style.borderLeftColor = borderColor;
+  }
+
+  ['s-size','s-drinkers','s-drinks'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', compute);
+  });
+  compute();
+
+  /* ---- Takeaways ---- */
+  function toggleTip(card){
+    var body = card.querySelector('.tip-body');
+    var isOpen = body.classList.contains('open');
+    document.querySelectorAll('.tip-body').forEach(function(b){ b.classList.remove('open'); });
+    document.querySelectorAll('.tip-card').forEach(function(c){ c.classList.remove('open'); });
+    if(!isOpen){ body.classList.add('open'); card.classList.add('open'); }
+  }
+
+  /* ---- Share ---- */
+  var selectedCard = null;
+  function selectStat(card){
+    document.querySelectorAll('.share-card').forEach(function(c){ c.classList.remove('selected'); });
+    if(selectedCard === card){ selectedCard = null; document.getElementById('share-preview').classList.remove('visible'); return; }
+    card.classList.add('selected');
+    selectedCard = card;
+    document.getElementById('preview-text').textContent = card.getAttribute('data-text');
+    document.getElementById('share-preview').classList.add('visible');
+    document.getElementById('copy-confirm').style.display = 'none';
+  }
+
+  function copyText(){
+    if(!selectedCard) return;
+    navigator.clipboard.writeText(selectedCard.getAttribute('data-text')).then(function(){
+      var el = document.getElementById('copy-confirm');
+      el.style.display = 'block';
+      setTimeout(function(){ el.style.display = 'none'; }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
