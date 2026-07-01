@@ -157,7 +157,33 @@
     .slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
     .slider-label { font-size: 13px; color: var(--text); min-width: 160px; }
     .slider-val { font-size: 13px; font-weight: 500; min-width: 28px; text-align: right; color: var(--purple); }
-    input[type=range] { flex: 1; accent-color: var(--text); }
+    input[type=range] {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 0;
+      outline: none;
+      cursor: pointer;
+      background: var(--border);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--bg-white);
+      border: 2px solid var(--text);
+      cursor: pointer;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--bg-white);
+      border: 2px solid var(--text);
+      cursor: pointer;
+    }
 
     .stats-grid {
       display: grid;
@@ -575,6 +601,12 @@
   /* ---- Risk model ---- */
   function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 
+  function updateSliderFill(id) {
+    var s = document.getElementById(id);
+    var pct = ((s.value - s.min) / (s.max - s.min)) * 100;
+    s.style.background = 'linear-gradient(to right, var(--text) 0%, var(--text) ' + pct + '%, var(--border) ' + pct + '%, var(--border) 100%)';
+  }
+
   function compute(){
     var size = parseInt(document.getElementById('s-size').value);
     var drinkers = clamp(parseInt(document.getElementById('s-drinkers').value), 0, size);
@@ -582,6 +614,9 @@
 
     document.getElementById('s-drinkers').max = size;
     document.getElementById('s-drinkers').value = Math.min(drinkers, size);
+    updateSliderFill('s-size');
+    updateSliderFill('s-drinkers');
+    updateSliderFill('s-drinks');
     document.getElementById('v-size').textContent = size;
     document.getElementById('v-drinkers').textContent = Math.min(drinkers, size);
     document.getElementById('v-drinks').textContent = drinks;
