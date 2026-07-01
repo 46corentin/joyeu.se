@@ -167,10 +167,10 @@
       border-top: var(--divider);
       border-bottom: var(--divider);
     }
-    .stat-card { background: transparent; border-radius: 0; padding: 1rem; border-right: 1px solid var(--border); }
+    .stat-card { background: transparent; border-radius: 0; padding: 1.25rem 1rem; border-right: 1px solid var(--border); }
     .stat-card:last-child { border-right: none; }
-    .stat-card .label { font-size: 10px; color: var(--text-tertiary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-card .value { font-size: 20px; font-weight: 500; }
+    .stat-card .label { font-size: 10px; color: var(--text-tertiary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-card .value { font-size: 26px; font-weight: 500; }
     .risk-low { color: var(--green-mid); }
     .risk-mid { color: var(--amber-mid); }
     .risk-high { color: var(--coral-mid); }
@@ -179,7 +179,7 @@
     .bar-row { margin-bottom: 12px; }
     .bar-row:last-child { margin-bottom: 0; }
     .bar-meta { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .bar-wrap { height: 4px; background: var(--border); border-radius: 0; overflow: hidden; }
+    .bar-wrap { height: 6px; background: var(--border); border-radius: 0; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 0; transition: width 0.25s ease; }
 
     .insight-box { border-left: 3px solid var(--border); padding-left: 1rem; margin-bottom: 0; transition: border-color 0.25s; }
@@ -417,15 +417,15 @@
   <div class="bar-block">
     <div class="bar-row">
       <div class="bar-meta"><span>Vulnerability</span><span id="b-vuln-pct">0%</span></div>
-      <div class="bar-wrap"><div class="bar-fill" id="b-vuln" style="background:#D85A30; width:0%;"></div></div>
+      <div class="bar-wrap"><div class="bar-fill" id="b-vuln" style="background:#534AB7; width:0%;"></div></div>
     </div>
     <div class="bar-row">
       <div class="bar-meta"><span>Aggression potential</span><span id="b-agg-pct">0%</span></div>
-      <div class="bar-wrap"><div class="bar-fill" id="b-agg" style="background:#BA7517; width:0%;"></div></div>
+      <div class="bar-wrap"><div class="bar-fill" id="b-agg" style="background:#534AB7; width:0%;"></div></div>
     </div>
     <div class="bar-row">
       <div class="bar-meta"><span>Sober protection</span><span id="b-prot-pct">0%</span></div>
-      <div class="bar-wrap"><div class="bar-fill" id="b-prot" style="background:#1D9E75; width:0%;"></div></div>
+      <div class="bar-wrap"><div class="bar-fill" id="b-prot" style="background:#534AB7; width:0%;"></div></div>
     </div>
   </div>
 
@@ -519,17 +519,17 @@
     </div>
     <div class="share-card" onclick="selectStat(this)" data-text="Most incidents have a 10–15 min warning window. A sober friend notices. Does yours? joyeu.se">
       <div class="check">✓</div>
-      <div class="big-stat" style="color:#AFA9EC;">15 min</div>
+      <div class="big-stat" style="color:#1D9E75;">15 min</div>
       <p class="stat-desc">warning window before most alcohol-related incidents</p>
     </div>
     <div class="share-card" onclick="selectStat(this)" data-text="85% of bystanders say they'd step in — but most wait for someone else to go first. Be the first. joyeu.se">
       <div class="check">✓</div>
-      <div class="big-stat" style="color:#BA7517;">85%</div>
+      <div class="big-stat" style="color:#1D9E75;">85%</div>
       <p class="stat-desc">of bystanders want to help — but wait for someone else first</p>
     </div>
     <div class="share-card" onclick="selectStat(this)" data-text="Leaving beats arguing. 80%+ of escalating situations resolve without harm when someone just walks away. joyeu.se">
       <div class="check">✓</div>
-      <div class="big-stat" style="color:#D85A30;">80%</div>
+      <div class="big-stat" style="color:#1D9E75;">80%</div>
       <p class="stat-desc">of escalations resolve without harm when the group leaves</p>
     </div>
   </div>
