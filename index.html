@@ -8,15 +8,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #ffffff;
-      --bg-secondary: #f5f4f0;
-      --text: #1a1a18;
-      --text-secondary: #5f5e5a;
-      --text-tertiary: #9a9893;
-      --border: rgba(0,0,0,0.12);
-      --border-strong: rgba(0,0,0,0.25);
-      --radius-md: 8px;
-      --radius-lg: 12px;
+      --bg: #F4F1E8;
+      --bg-secondary: #EDE9DC;
+      --bg-white: #ffffff;
+      --text: #111111;
+      --text-secondary: #555555;
+      --text-tertiary: #888888;
+      --border: #D0CCBF;
+      --border-strong: #111111;
+      --radius-md: 0px;
+      --radius-lg: 0px;
       --green: #0F6E56;
       --green-bg: #E1F5EE;
       --green-mid: #1D9E75;
@@ -28,17 +29,19 @@
       --coral-mid: #D85A30;
       --purple: #534AB7;
       --purple-bg: #EEEDFE;
+      --divider: 2px solid #111111;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1e1e1c;
-        --bg-secondary: #2a2a28;
-        --text: #f0efe8;
-        --text-secondary: #b4b2a9;
-        --text-tertiary: #888780;
-        --border: rgba(255,255,255,0.1);
-        --border-strong: rgba(255,255,255,0.2);
+        --bg: #1a1916;
+        --bg-secondary: #242320;
+        --bg-white: #1f1e1c;
+        --text: #F4F1E8;
+        --text-secondary: #A8A49A;
+        --text-tertiary: #6B6760;
+        --border: #3a3835;
+        --border-strong: #F4F1E8;
         --green: #9FE1CB;
         --green-bg: #04342C;
         --green-mid: #1D9E75;
@@ -50,6 +53,7 @@
         --coral-mid: #D85A30;
         --purple: #AFA9EC;
         --purple-bg: #26215C;
+        --divider: 2px solid #F4F1E8;
       }
     }
 
@@ -60,109 +64,232 @@
       line-height: 1.6;
     }
 
+    /* ---- NAV ---- */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--bg);
-      border-bottom: 0.5px solid var(--border);
+      background: #111111;
+      border-bottom: none;
       padding: 0 2rem;
-      height: 52px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .nav-logo { font-size: 16px; font-weight: 500; color: var(--text); text-decoration: none; }
+    .nav-logo { font-size: 16px; font-weight: 500; color: #F4F1E8; text-decoration: none; letter-spacing: -0.01em; }
+    .logo-se { color: #AFA9EC; }
     .nav-links { display: flex; gap: 1.5rem; }
-    .nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a { font-size: 11px; color: #888888; text-decoration: none; text-transform: uppercase; letter-spacing: 0.07em; }
+    .nav-links a:hover { color: #F4F1E8; }
 
-    section { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
-    section + section { border-top: 0.5px solid var(--border); }
+    /* ---- SECTIONS ---- */
+    section { padding: 3rem 2rem; border-top: var(--divider); }
+    #hero { border-top: none; padding-top: 2.5rem; }
+    #model { background: var(--bg-white); }
 
-    .eyebrow { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
-    h1 { font-size: 40px; font-weight: 500; line-height: 1.2; margin-bottom: 1rem; }
-    h2 { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; }
-    .lead { font-size: 18px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 2rem; max-width: 560px; }
+    .eyebrow { font-size: 10px; color: var(--purple); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    h1 { font-size: 38px; font-weight: 500; line-height: 1.18; margin-bottom: 0.875rem; }
+    h2 { font-size: 20px; font-weight: 500; margin-bottom: 0.5rem; }
+    .lead { font-size: 16px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 2rem; max-width: 520px; }
 
-    .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; padding: 10px 22px; border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); background: transparent; color: var(--text); cursor: pointer; text-decoration: none; transition: background 0.15s; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 9px 20px; border: 1px solid var(--border-strong); border-radius: 0; background: transparent; color: var(--text); cursor: pointer; text-decoration: none; transition: background 0.15s; }
     .btn:hover { background: var(--bg-secondary); }
     .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
 
-    /* Risk model */
-    .slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
-    .slider-label { font-size: 14px; color: var(--text); min-width: 160px; }
-    .slider-val { font-size: 14px; font-weight: 500; min-width: 28px; text-align: right; color: var(--text); }
-    input[type=range] { flex: 1; accent-color: var(--green-mid); }
+    /* ---- ENTRY CARDS ---- */
+    .entry-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: var(--divider);
+      border-bottom: var(--divider);
+      margin-bottom: 1.5rem;
+      counter-reset: entry-counter;
+    }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 1.75rem 0; }
-    .stat-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 0.875rem 1rem; }
-    .stat-card .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
-    .stat-card .value { font-size: 22px; font-weight: 500; }
-    .risk-low { color: var(--green); }
+    .entry-card {
+      background: var(--bg);
+      border: none;
+      border-right: 1px solid var(--border);
+      border-radius: 0;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      counter-increment: entry-counter;
+      position: relative;
+    }
+
+    .entry-card::before {
+      content: "0" counter(entry-counter);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--border);
+      display: block;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .entry-card:last-child { border-right: none; }
+    .entry-card:hover { background: var(--bg-secondary); }
+    .entry-card.active { background: var(--bg-secondary); }
+    .entry-card.active::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--purple);
+    }
+
+    .entry-icon { display: none; }
+    .entry-title { font-size: 13px; font-weight: 500; color: var(--text); margin: 0 0 5px; }
+    .entry-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+    .entry-tag { font-size: 10px; padding: 2px 8px; border-radius: 0; display: inline-block; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .entry-detail { display: none; background: var(--bg-secondary); border-radius: 0; padding: 1.5rem; border-left: 3px solid var(--purple); margin-bottom: 0; }
+    .entry-detail.visible { display: block; }
+    .entry-detail-title { font-size: 15px; font-weight: 500; color: var(--text); margin: 0 0 0.75rem; }
+    .entry-detail p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin: 0 0 0.75rem; }
+    .entry-stat { font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 0; display: inline-block; }
+
+    /* ---- RISK MODEL ---- */
+    .slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+    .slider-label { font-size: 13px; color: var(--text); min-width: 160px; }
+    .slider-val { font-size: 13px; font-weight: 500; min-width: 28px; text-align: right; color: var(--purple); }
+    input[type=range] { flex: 1; accent-color: var(--text); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0;
+      margin: 1.5rem 0;
+      border-top: var(--divider);
+      border-bottom: var(--divider);
+    }
+    .stat-card { background: transparent; border-radius: 0; padding: 1rem; border-right: 1px solid var(--border); }
+    .stat-card:last-child { border-right: none; }
+    .stat-card .label { font-size: 10px; color: var(--text-tertiary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-card .value { font-size: 20px; font-weight: 500; }
+    .risk-low { color: var(--green-mid); }
     .risk-mid { color: var(--amber-mid); }
-    .risk-high { color: var(--coral); }
+    .risk-high { color: var(--coral-mid); }
 
-    .bar-block { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
-    .bar-row { margin-bottom: 10px; }
+    .bar-block { background: var(--bg); border-radius: 0; padding: 1.25rem; margin-bottom: 1.5rem; border-top: 1px solid var(--border); }
+    .bar-row { margin-bottom: 12px; }
     .bar-row:last-child { margin-bottom: 0; }
-    .bar-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
-    .bar-wrap { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.25s ease; }
+    .bar-meta { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .bar-wrap { height: 4px; background: var(--border); border-radius: 0; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 0; transition: width 0.25s ease; }
 
-    .insight-box { border-left: 3px solid var(--border); padding-left: 1rem; margin-bottom: 1.5rem; transition: border-color 0.25s; }
-    .insight-box p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+    .insight-box { border-left: 3px solid var(--border); padding-left: 1rem; margin-bottom: 0; transition: border-color 0.25s; }
+    .insight-box p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    /* Takeaways */
-    .tip-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; cursor: pointer; transition: border-color 0.15s; margin-bottom: 10px; }
-    .tip-card:hover { border-color: var(--border-strong); }
-    .tip-card.open { border-color: var(--border-strong); }
-    .tip-header { display: flex; align-items: center; gap: 12px; }
-    .tip-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
-    .tip-title { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
-    .tip-tag { font-size: 11px; padding: 2px 8px; border-radius: var(--radius-md); flex-shrink: 0; }
-    .tip-body { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin-top: 1rem; display: none; }
+    /* ---- TIPS ---- */
+    #tips-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border-top: var(--divider);
+      border-bottom: var(--divider);
+      counter-reset: tip-counter;
+    }
+
+    .tip-card {
+      background: var(--bg);
+      border: none;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      counter-increment: tip-counter;
+      margin-bottom: 0;
+    }
+    .tip-card:nth-child(2n) { border-right: none; }
+    .tip-card:nth-last-child(-n+2) { border-bottom: none; }
+    .tip-card:last-child { border-bottom: none; }
+    .tip-card:hover { background: var(--bg-secondary); }
+    .tip-card.open { background: var(--bg-secondary); }
+
+    .tip-header { display: flex; align-items: flex-start; gap: 10px; }
+
+    .tip-icon {
+      font-size: 0;
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      background: transparent !important;
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-start;
+    }
+    .tip-icon::before {
+      content: "0" counter(tip-counter);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--border);
+      line-height: 1;
+      display: block;
+      min-width: 30px;
+    }
+
+    .tip-title { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; padding-top: 3px; }
+    .tip-tag { font-size: 10px; padding: 2px 8px; border-radius: 0; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.04em; }
+    .tip-body { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-top: 0.875rem; display: none; padding-left: 40px; }
     .tip-body.open { display: block; }
-    .tip-stat { font-size: 13px; font-weight: 500; margin-top: 0.75rem; padding: 0.625rem 0.875rem; border-radius: var(--radius-md); display: inline-block; }
+    .tip-stat { font-size: 12px; font-weight: 500; margin-top: 0.75rem; padding: 6px 10px; border-radius: 0; display: inline-block; }
 
-    /* Share */
-    .share-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
-    .share-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; cursor: pointer; transition: border-color 0.15s; position: relative; }
-    .share-card:hover { border-color: var(--border-strong); }
-    .share-card.selected { border: 2px solid var(--green-mid); }
-    .share-card .big-stat { font-size: 32px; font-weight: 500; margin-bottom: 6px; }
-    .share-card .stat-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
-    .share-card .check { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--green-mid); display: none; align-items: center; justify-content: center; color: white; font-size: 13px; }
+    /* ---- SHARE ---- */
+    #share { background: #111111; border-top: none; }
+    #share .eyebrow { color: var(--purple); }
+    #share h2 { color: #F4F1E8; }
+    #share > p { color: #888888 !important; font-size: 13px !important; }
+
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0;
+      margin-bottom: 1.5rem;
+      border-top: 2px solid var(--purple);
+    }
+    .share-card { background: #1a1a1a; border: none; border-right: 1px solid #2a2a2a; border-radius: 0; padding: 1.25rem; cursor: pointer; transition: background 0.15s; position: relative; border-left: 3px solid transparent; }
+    .share-card:last-child { border-right: none; }
+    .share-card:hover { background: #222222; }
+    .share-card.selected { border-left: 3px solid var(--purple); background: #1c1a2e; }
+    .share-card .big-stat { font-size: 30px; font-weight: 500; margin-bottom: 6px; }
+    .share-card .stat-desc { font-size: 12px; color: #666666; line-height: 1.5; }
+    .share-card .check { position: absolute; top: 12px; right: 12px; width: 20px; height: 20px; border-radius: 0; background: var(--purple); display: none; align-items: center; justify-content: center; color: white; font-size: 12px; }
     .share-card.selected .check { display: flex; }
 
-    .share-preview { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; display: none; }
+    .share-preview { background: #1a1a1a; border-radius: 0; padding: 1.25rem; margin-bottom: 1.25rem; display: none; border-left: 3px solid var(--purple); }
     .share-preview.visible { display: block; }
-    .share-preview .preview-label { font-size: 12px; color: var(--text-tertiary); margin-bottom: 0.5rem; }
-    .share-preview .preview-text { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 1rem; }
-    .copy-confirm { font-size: 12px; color: var(--green); margin-top: 0.5rem; display: none; }
+    .share-preview .preview-label { font-size: 10px; color: #555555; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.07em; }
+    .share-preview .preview-text { font-size: 13px; color: #cccccc; line-height: 1.6; margin-bottom: 1rem; }
+    .copy-confirm { font-size: 12px; color: var(--green-mid); margin-top: 0.5rem; display: none; }
+    #share .btn { border-color: #333333; color: #aaaaaa; }
+    #share .btn:hover { background: #222222; }
 
-    footer { background: var(--bg-secondary); border-top: 0.5px solid var(--border); padding: 2rem; text-align: center; font-size: 13px; color: var(--text-tertiary); }
-
-    /* Entry cards */
-    .entry-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
-    .entry-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
-    .entry-card.active { border: 2px solid currentColor; }
-    .entry-icon { font-size: 26px; margin-bottom: 0.75rem; }
-    .entry-title { font-size: 15px; font-weight: 500; color: var(--text); margin: 0 0 0.5rem; }
-    .entry-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 0.875rem; }
-    .entry-tag { font-size: 11px; padding: 3px 8px; border-radius: 20px; display: inline-block; }
-    .entry-detail { display: none; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1.5rem; margin-top: 0; }
-    .entry-detail.visible { display: block; }
-    .entry-detail-title { font-size: 16px; font-weight: 500; color: var(--text); margin: 0 0 0.75rem; }
-    .entry-detail p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin: 0 0 0.75rem; }
-    .entry-stat { font-size: 13px; font-weight: 500; padding: 0.5rem 0.875rem; border-radius: var(--radius-md); display: inline-block; }
+    /* ---- FOOTER ---- */
+    footer {
+      background: #111111;
+      border-top: 2px solid var(--purple);
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #555555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body>
 
 <nav>
-  <a class="nav-logo" href="#">joyeu.se</a>
+  <a class="nav-logo" href="#">joyeu<span class="logo-se">.se</span></a>
   <div class="nav-links">
     <a href="#model">The model</a>
     <a href="#tips">What works</a>
@@ -176,7 +303,7 @@
   <h1>One sober friend changes everything.</h1>
   <p class="lead">Not a lecture. Just data on what actually makes a night safer — and more fun.</p>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 2rem;">
+  <div class="entry-cards-grid">
 
     <div class="entry-card" onclick="showEntry('hosting')" id="c-hosting">
       <div class="entry-icon">🎉</div>
@@ -237,7 +364,7 @@
 <section id="model">
   <div class="eyebrow">The model</div>
   <h2>How does your group affect risk?</h2>
-  <p style="font-size:14px; color:var(--text-secondary); margin-bottom:1.75rem;">Adjust the sliders to model your group composition.</p>
+  <p style="font-size:13px; color:var(--text-secondary); margin-bottom:1.75rem;">Adjust the sliders to model your group composition.</p>
 
   <div class="slider-row">
     <span class="slider-label">Group size</span>
@@ -286,13 +413,13 @@
 <section id="tips">
   <div class="eyebrow">What works</div>
   <h2>What the data actually says</h2>
-  <p style="font-size:14px; color:var(--text-secondary); margin-bottom:1.5rem;">Not rules — patterns. Tap any card to learn more.</p>
+  <p style="font-size:13px; color:var(--text-secondary); margin-bottom:1.5rem;">Not rules — patterns. Tap any card to learn more.</p>
 
   <div id="tips-list">
 
     <div class="tip-card" onclick="toggleTip(this)">
       <div class="tip-header">
-        <div class="tip-icon" style="background:var(--green-bg);">🧍</div>
+        <div class="tip-icon">🧍</div>
         <p class="tip-title">Designate a sober person before you go out</p>
         <span class="tip-tag" style="background:var(--green-bg); color:var(--green);">Strongest effect</span>
       </div>
@@ -304,7 +431,7 @@
 
     <div class="tip-card" onclick="toggleTip(this)">
       <div class="tip-header">
-        <div class="tip-icon" style="background:var(--purple-bg);">👁️</div>
+        <div class="tip-icon">👁️</div>
         <p class="tip-title">Watch for escalation signals early</p>
         <span class="tip-tag" style="background:var(--purple-bg); color:var(--purple);">Time-sensitive</span>
       </div>
@@ -316,7 +443,7 @@
 
     <div class="tip-card" onclick="toggleTip(this)">
       <div class="tip-header">
-        <div class="tip-icon" style="background:var(--amber-bg);">🚶</div>
+        <div class="tip-icon">🚶</div>
         <p class="tip-title">The exit beats the argument</p>
         <span class="tip-tag" style="background:var(--amber-bg); color:var(--amber);">Counterintuitive</span>
       </div>
@@ -328,7 +455,7 @@
 
     <div class="tip-card" onclick="toggleTip(this)">
       <div class="tip-header">
-        <div class="tip-icon" style="background:var(--coral-bg);">🕐</div>
+        <div class="tip-icon">🕐</div>
         <p class="tip-title">Pace matters as much as quantity</p>
         <span class="tip-tag" style="background:var(--coral-bg); color:var(--coral);">Often overlooked</span>
       </div>
@@ -340,7 +467,7 @@
 
     <div class="tip-card" onclick="toggleTip(this)">
       <div class="tip-header">
-        <div class="tip-icon" style="background:var(--green-bg);">🤝</div>
+        <div class="tip-icon">🤝</div>
         <p class="tip-title">Most people want the same night you do</p>
         <span class="tip-tag" style="background:var(--green-bg); color:var(--green);">Reframe</span>
       </div>
@@ -357,27 +484,27 @@
 <section id="share">
   <div class="eyebrow">Spread it</div>
   <h2>Share one fact. That's enough.</h2>
-  <p style="font-size:14px; color:var(--text-secondary); margin-bottom:1.5rem;">Pick a stat that resonates, then share it.</p>
+  <p style="font-size:13px; color:#888888; margin-bottom:1.5rem;">Pick a stat that resonates, then share it.</p>
 
   <div class="share-grid">
     <div class="share-card" onclick="selectStat(this)" data-text="One sober person in your group reduces conflict risk by up to 60%. You don't have to stop anyone from drinking — just be the one who stays clear. joyeu.se">
       <div class="check">✓</div>
-      <div class="big-stat" style="color:var(--green);">60%</div>
+      <div class="big-stat" style="color:#1D9E75;">60%</div>
       <p class="stat-desc">less risk with one sober person in the group</p>
     </div>
     <div class="share-card" onclick="selectStat(this)" data-text="Most incidents have a 10–15 min warning window. A sober friend notices. Does yours? joyeu.se">
       <div class="check">✓</div>
-      <div class="big-stat" style="color:var(--purple);">15 min</div>
+      <div class="big-stat" style="color:#AFA9EC;">15 min</div>
       <p class="stat-desc">warning window before most alcohol-related incidents</p>
     </div>
     <div class="share-card" onclick="selectStat(this)" data-text="85% of bystanders say they'd step in — but most wait for someone else to go first. Be the first. joyeu.se">
       <div class="check">✓</div>
-      <div class="big-stat" style="color:var(--amber-mid);">85%</div>
+      <div class="big-stat" style="color:#BA7517;">85%</div>
       <p class="stat-desc">of bystanders want to help — but wait for someone else first</p>
     </div>
     <div class="share-card" onclick="selectStat(this)" data-text="Leaving beats arguing. 80%+ of escalating situations resolve without harm when someone just walks away. joyeu.se">
       <div class="check">✓</div>
-      <div class="big-stat" style="color:var(--coral-mid);">80%</div>
+      <div class="big-stat" style="color:#D85A30;">80%</div>
       <p class="stat-desc">of escalations resolve without harm when the group leaves</p>
     </div>
   </div>
@@ -393,7 +520,8 @@
 </section>
 
 <footer>
-  joyeu.se — data about alcohol and violence. Not a campaign. Just the facts.
+  <span>joyeu.se</span> — data about alcohol and violence. Not a campaign. Just the facts.
+  <span style="color:#333333;">CAN &amp; BRÅ</span>
 </footer>
 
 <script>
