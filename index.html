@@ -284,6 +284,31 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+  @media (max-width: 600px) {
+    h1 { font-size: 28px; }
+    section { padding: 2rem 1.25rem; }
+
+    .entry-cards-grid { grid-template-columns: 1fr; }
+    .entry-card { border-right: none; border-bottom: 1px solid var(--border); }
+    .entry-card:last-child { border-bottom: none; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-card:nth-child(2n) { border-right: none; }
+
+    #tips-list { grid-template-columns: 1fr; }
+    .tip-card { border-right: none; border-bottom: 1px solid var(--border); }
+    .tip-card:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+    .tip-card:last-child { border-bottom: none; }
+    .tip-header { flex-wrap: wrap; gap: 6px; }
+    .tip-tag { order: 3; margin-top: 2px; }
+    .tip-body { padding-left: 32px; }
+
+    .share-grid { grid-template-columns: 1fr; }
+    .share-card { border-right: none; border-bottom: 1px solid #222222; }
+    .share-card:last-child { border-bottom: none; }
+
+    footer { flex-direction: column; gap: 4px; text-align: center; }
+  }
   </style>
 </head>
 <body>
